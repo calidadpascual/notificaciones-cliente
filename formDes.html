@@ -1,1 +1,82 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>No recibir notificaciones</title>
+<style>
+body {
+    font-family: Segoe UI, Arial, sans-serif;
+    margin: 40px;
+    text-align: center;
+}
+button {
+    padding: 12px 20px;
+    background-color: #ccc;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    font-size: 18px;
+    cursor: not-allowed;
+}
+button.enabled {
+    background-color: rgb(151,0,0);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button.enabled:hover {
+    background-color: rgb(181,0,0);
+}
+button.enabled:active {
+    background-color: rgb(120,0,0);
+}
+</style>
+</head>
+<body>
+ 
+<h2>Recibir Notificaciones</h2>
+<p>Marque si no desea recibir notificaciones sobre sus pedidos:</p>
+ 
+<input type="checkbox" id="chk">
+<label for="chk">No deseo recibir notificaciones</label>
+ 
+<br><br>
+ 
+<button id="btn" disabled>Enviar</button>
+ 
+<p id="msg"></p>
+ 
+<script>
+// Obtener ID desde la URL
+const params = new URLSearchParams(window.location.search);
+const customerId = params.get("CustomerId");
+ 
+// Elementos
+const chk = document.getElementById("chk");
+const btn = document.getElementById("btn");
+const msg = document.getElementById("msg");
+ 
+// Activar/desactivar botón
+chk.addEventListener("change", () => {
+    if (chk.checked) {
+        btn.disabled = false;
+        btn.classList.add("enabled");
+    } else {
+        btn.disabled = true;
+        btn.classList.remove("enabled");
+    }
+});
+ 
+// Enviar datos al Flow
+btn.addEventListener("click", () => {
+    fetch("https://f0e8742b016cef49bff4b49bb26912.46.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/4c4ba84010e9439296b20ec542da897d/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=8CUxUx72FyBOA2hxBNComeMkkBcvG647Sb7JJk_IWDw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ CustomerId: customerId })
+    })
+    .then(() => msg.innerHTML = "✅ Gracias, su solicitud ha sido registrada.")
+    .catch(() => msg.innerHTML = "❌ Hubo un error, inténtelo más tarde.");
+});
+</script>
+ 
+</body>
+</html>
