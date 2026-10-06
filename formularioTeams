@@ -1,0 +1,23 @@
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+<title>Solicitud de Pago</title>
+</head>
+<body>
+<h2>Formulario Solicitud de Pago</h2>
+ 
+<form>
+<label>Nombre:</label><br>
+<input type="text" name="nombre"><br><br>
+ 
+<label>Importe:</label><br>
+<input type="number" name="importe"><br><br>
+ 
+<label>Descripción:</label><br>
+<textarea name="descripcion"></textarea><br><br>
+ 
+<button type="submit">Enviar</button>
+</form>
+</body>
+</html>
